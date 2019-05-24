@@ -1,0 +1,53 @@
+#!/bin/bash
+
+function killPro()
+{
+	PID=$(ps -e|grep $1|grep -v "grep"|awk '{print $1}')
+	echo "PID:${PID}"
+	kill -9 $PID
+}
+function start()
+{
+	echo "start"
+	echo "...................................."
+	count=$(ps -ef|grep cpe_54_08|grep -v "grep"|wc -l)
+	if [ 0 == ${count} ]
+	then
+		nohup ./cpe_54_08 >log 2>&1 &
+	else
+		echo server already started!
+	fi
+}
+function stop()
+{
+	echo "stop"
+	echo "...................................."
+	count=$(ps -ef|grep cpe_54_08|grep -v "grep"|wc -l)
+	if [ 0 != ${count} ]
+	then
+		killPro "cpe_54_08"
+	else
+		echo server already stoped!
+	fi
+}
+function restart()
+{
+	echo "restart"
+	echo "...................................."
+	stop
+	start
+}
+case "$1" in
+	start )
+		start
+		;;
+	stop )
+		stop
+		;;
+	restart )
+		restart
+		;;
+	* )
+		echo "no command"
+		;;
+esac

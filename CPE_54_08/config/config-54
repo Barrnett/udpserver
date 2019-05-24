@@ -1,0 +1,4 @@
+serverIP:0.0.0.0
+serverPort:6901
+DbIP:192.168.10.202
+clientPort:6902
